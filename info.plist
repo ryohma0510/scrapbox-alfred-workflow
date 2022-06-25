@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>com.uma_the390.alfredapp.scrapbox</string>
+	<key>category</key>
+	<string>Productivity</string>
+	<key>connections</key>
+	<dict>
+		<key>1C82525E-CFEA-4265-9B81-57497ED0C05C</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>7827B635-AB1F-47CA-B8BC-487F30B9C8D0</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>6E4EEBD5-0AB8-4986-8EC0-1CD707F41689</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>11D5721D-E45C-4D45-82C8-2CC370002271</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>ADC38BD0-5F61-4A40-B944-812634B645BE</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>78F9E02C-F005-4EDE-AC73-E776A530779D</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string></string>
+	<key>description</key>
+	<string></string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>Scrapbox</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>browser</key>
+				<string></string>
+				<key>spaces</key>
+				<string></string>
+				<key>url</key>
+				<string>https://scrapbox.io/{var:project_name}/{query}</string>
+				<key>utf8</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>11D5721D-E45C-4D45-82C8-2CC370002271</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>keyword</key>
+				<string>sb new</string>
+				<key>subtext</key>
+				<string></string>
+				<key>text</key>
+				<string>Scrapbox New</string>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>6E4EEBD5-0AB8-4986-8EC0-1CD707F41689</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>68</integer>
+				<key>script</key>
+				<string>const chrome = Application("Google Chrome");
+chrome.includeStandardAdditions = true;
+
+const currentTab = chrome.windows[0].activeTab;
+const title = currentTab.title();
+const url = currentTab.url();
+
+chrome.setTheClipboardTo(`[${title} ${url}]`);
+
+
+const notifier = Application.currentApplication();
+notifier.includeStandardAdditions = true
+
+notifier.displayNotification(title, {
+    withTitle: "コピーしました",
+})</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>7</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>7827B635-AB1F-47CA-B8BC-487F30B9C8D0</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>sb url</string>
+				<key>subtext</key>
+				<string>generate url for scrapbox</string>
+				<key>text</key>
+				<string>Scrapbox URL</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>1C82525E-CFEA-4265-9B81-57497ED0C05C</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>68</integer>
+				<key>script</key>
+				<string>// settings
+const browserName = "Google Chrome"
+const browser = Application(browserName)
+
+ObjC.import('stdlib')
+const scrapboxProject = "scrapbox-rk"
+const scrapboxBookmarkTag = "#" + $.getenv('bookmark_tag')
+
+// get information for generating bookmark
+const currentWindow = browser.windows[0]
+const currentTab = currentWindow.activeTab
+const title = currentTab.title()
+const url = currentTab.url()
+const scrapboxLink = `[${title} ${url}]`
+
+// generate scrapbox bookmark
+const newTab = new browser.Tab()
+const lines = [scrapboxBookmarkTag, "", scrapboxLink]
+const body = encodeURIComponent(lines.join('\n'))
+
+newTab.url = `https://scrapbox.io/${scrapboxProject}/${title}?body=${body}`
+currentWindow.tabs.push(newTab);</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>7</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>78F9E02C-F005-4EDE-AC73-E776A530779D</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>sb bookmark</string>
+				<key>subtext</key>
+				<string>create bookmark page</string>
+				<key>text</key>
+				<string>Scrapbox Bookmark</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>ADC38BD0-5F61-4A40-B944-812634B645BE</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string></string>
+	<key>uidata</key>
+	<dict>
+		<key>11D5721D-E45C-4D45-82C8-2CC370002271</key>
+		<dict>
+			<key>xpos</key>
+			<integer>400</integer>
+			<key>ypos</key>
+			<integer>105</integer>
+		</dict>
+		<key>1C82525E-CFEA-4265-9B81-57497ED0C05C</key>
+		<dict>
+			<key>xpos</key>
+			<integer>235</integer>
+			<key>ypos</key>
+			<integer>270</integer>
+		</dict>
+		<key>6E4EEBD5-0AB8-4986-8EC0-1CD707F41689</key>
+		<dict>
+			<key>xpos</key>
+			<integer>225</integer>
+			<key>ypos</key>
+			<integer>105</integer>
+		</dict>
+		<key>7827B635-AB1F-47CA-B8BC-487F30B9C8D0</key>
+		<dict>
+			<key>xpos</key>
+			<integer>400</integer>
+			<key>ypos</key>
+			<integer>270</integer>
+		</dict>
+		<key>78F9E02C-F005-4EDE-AC73-E776A530779D</key>
+		<dict>
+			<key>xpos</key>
+			<integer>405</integer>
+			<key>ypos</key>
+			<integer>450</integer>
+		</dict>
+		<key>ADC38BD0-5F61-4A40-B944-812634B645BE</key>
+		<dict>
+			<key>xpos</key>
+			<integer>240</integer>
+			<key>ypos</key>
+			<integer>450</integer>
+		</dict>
+	</dict>
+	<key>variables</key>
+	<dict>
+		<key>bookmark_tag</key>
+		<string>bookmark</string>
+		<key>project_name</key>
+		<string>scrapbox-rk</string>
+	</dict>
+	<key>variablesdontexport</key>
+	<array>
+		<string>project_name</string>
+		<string>bookmark_tag</string>
+	</array>
+	<key>version</key>
+	<string></string>
+	<key>webaddress</key>
+	<string></string>
+</dict>
+</plist>
