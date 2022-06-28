@@ -279,11 +279,11 @@ currentWindow.tabs.push(newTab);</string>
 	</dict>
 	<key>variablesdontexport</key>
 	<array>
-		<string>project_name</string>
 		<string>bookmark_tag</string>
+		<string>project_name</string>
 	</array>
 	<key>version</key>
-	<string></string>
+	<string>0.0.1</string>
 	<key>webaddress</key>
 	<string></string>
 </dict>
