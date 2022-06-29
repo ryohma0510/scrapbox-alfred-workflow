@@ -12,6 +12,7 @@ Actions are implemented by JXA(JavaScript for AppleScript).
 
 1. install workflow package into alfred
 2. set environment variables
+3. install jq command (used in search pages commnad)
 
 environment variables
 
@@ -45,3 +46,11 @@ commands
 ### sb bookmark
 
 ![image](.resources/readme/bookmark.gif)
+
+### sb
+
+`sb` fetches all scrapbox pages
+
+![image](.resources/readme/sb_list.gif)
+
+### sb {query}
