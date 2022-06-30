@@ -8,11 +8,37 @@
 	<string>Productivity</string>
 	<key>connections</key>
 	<dict>
+		<key>182B9D13-553D-4991-A5DD-897CC6B3EDE2</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>CC5B8C8C-B655-42A9-BCBF-7825591AA4F6</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>1C82525E-CFEA-4265-9B81-57497ED0C05C</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
 				<string>7827B635-AB1F-47CA-B8BC-487F30B9C8D0</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>659D317E-503A-446B-9349-0C80D6190156</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>CC5B8C8C-B655-42A9-BCBF-7825591AA4F6</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -47,36 +73,30 @@
 				<false/>
 			</dict>
 		</array>
+		<key>CC5B8C8C-B655-42A9-BCBF-7825591AA4F6</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>DA72EA9F-A206-4695-9CF8-5B5B05FE1D59</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 	</dict>
 	<key>createdby</key>
-	<string></string>
+	<string>uma_the390</string>
 	<key>description</key>
-	<string></string>
+	<string>Convenient actions for scrapbox</string>
 	<key>disabled</key>
 	<false/>
 	<key>name</key>
 	<string>Scrapbox</string>
 	<key>objects</key>
 	<array>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>browser</key>
-				<string></string>
-				<key>spaces</key>
-				<string></string>
-				<key>url</key>
-				<string>https://scrapbox.io/{var:project_name}/{query}</string>
-				<key>utf8</key>
-				<true/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.action.openurl</string>
-			<key>uid</key>
-			<string>11D5721D-E45C-4D45-82C8-2CC370002271</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
@@ -87,7 +107,7 @@
 				<key>subtext</key>
 				<string></string>
 				<key>text</key>
-				<string>Scrapbox New</string>
+				<string>sb new</string>
 				<key>withspace</key>
 				<true/>
 			</dict>
@@ -95,6 +115,25 @@
 			<string>alfred.workflow.input.keyword</string>
 			<key>uid</key>
 			<string>6E4EEBD5-0AB8-4986-8EC0-1CD707F41689</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>browser</key>
+				<string></string>
+				<key>spaces</key>
+				<string></string>
+				<key>url</key>
+				<string>https://scrapbox.io/{var:project_id}/{query}</string>
+				<key>utf8</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>11D5721D-E45C-4D45-82C8-2CC370002271</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
@@ -146,7 +185,7 @@ notifier.displayNotification(title, {
 				<key>subtext</key>
 				<string>generate url for scrapbox</string>
 				<key>text</key>
-				<string>Scrapbox URL</string>
+				<string>sb url</string>
 				<key>withspace</key>
 				<false/>
 			</dict>
@@ -170,7 +209,7 @@ const browserName = "Google Chrome"
 const browser = Application(browserName)
 
 ObjC.import('stdlib')
-const scrapboxProject = "scrapbox-rk"
+const scrapboxProject = $.getenv('project_id')
 const scrapboxBookmarkTag = "#" + $.getenv('bookmark_tag')
 
 // get information for generating bookmark
@@ -211,7 +250,7 @@ currentWindow.tabs.push(newTab);</string>
 				<key>subtext</key>
 				<string>create bookmark page</string>
 				<key>text</key>
-				<string>Scrapbox Bookmark</string>
+				<string>sb bookmark</string>
 				<key>withspace</key>
 				<false/>
 			</dict>
@@ -221,6 +260,191 @@ currentWindow.tabs.push(newTab);</string>
 			<string>ADC38BD0-5F61-4A40-B944-812634B645BE</string>
 			<key>version</key>
 			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>browser</key>
+				<string></string>
+				<key>spaces</key>
+				<string></string>
+				<key>url</key>
+				<string>https://{var:endpoint}/{var:project_id}/{query}</string>
+				<key>utf8</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>DA72EA9F-A206-4695-9CF8-5B5B05FE1D59</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<true/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>keyword</key>
+				<string>sb list</string>
+				<key>queuedelaycustom</key>
+				<integer>1</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<false/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Fetching ...</string>
+				<key>script</key>
+				<string>require 'net/http'
+require 'json'
+
+def list_scrapbox
+  uri = URI.parse("https://#{ENV['endpoint']}/api/pages/#{ENV['project_id']}")
+  http = Net::HTTP.new(uri.host, uri.port)
+  http.use_ssl = uri.scheme === "https"
+  headers = { "Cookie" =&gt; "connect.sid=#{ENV['token']}" }
+  response = http.get(uri.path, headers)
+
+  response
+end
+
+
+response = list_scrapbox
+json_response = JSON.parse(response.body, symbolize_names: true)
+
+items = json_response[:pages].each_with_object([]) do |page, array|
+  array &lt;&lt; {
+    uid: page[:id],
+    title: page[:title],
+    arg: page[:title]
+  }
+end
+
+puts JSON.dump({ items: items })
+</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string>test.sh</string>
+				<key>subtext</key>
+				<string>list 100 pages</string>
+				<key>title</key>
+				<string>sb list</string>
+				<key>type</key>
+				<integer>2</integer>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>182B9D13-553D-4991-A5DD-897CC6B3EDE2</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.junction</string>
+			<key>uid</key>
+			<string>CC5B8C8C-B655-42A9-BCBF-7825591AA4F6</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<true/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>sb search</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Fetching ...</string>
+				<key>script</key>
+				<string>require 'net/http'
+require 'json'
+
+def search_scrapbox(query)
+  uri = URI.parse("https://#{ENV['endpoint']}/api/pages/#{ENV['project_id']}/search/query")
+  uri.query = URI.encode_www_form({q: query})
+
+  http = Net::HTTP.new(uri.host, uri.port)
+  http.use_ssl = true
+  headers = { "Cookie" =&gt; "connect.sid=#{ENV['token']}" }
+
+
+  response = http.get(uri, headers)
+  response
+end
+
+
+response = search_scrapbox(ARGV[0])
+json_response = JSON.parse(response.body, symbolize_names: true)
+
+# pages matched with title are sorted to forward
+pages = json_response[:pages].partition do |page|
+  page[:lines].include?(page[:title])
+end.flatten
+
+items = pages.each_with_object([]) do |page, array|
+  array &lt;&lt; {
+    uid: page[:id],
+    title: page[:title],
+    arg: page[:title]
+  }
+end
+
+puts JSON.dump({ items: items })
+</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>search pages</string>
+				<key>title</key>
+				<string>sb search</string>
+				<key>type</key>
+				<integer>2</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>659D317E-503A-446B-9349-0C80D6190156</string>
+			<key>version</key>
+			<integer>3</integer>
 		</dict>
 	</array>
 	<key>readme</key>
@@ -234,12 +458,28 @@ currentWindow.tabs.push(newTab);</string>
 			<key>ypos</key>
 			<integer>105</integer>
 		</dict>
+		<key>182B9D13-553D-4991-A5DD-897CC6B3EDE2</key>
+		<dict>
+			<key>note</key>
+			<string>Alfred 3 now supports JSON as the Script Filter output. This is the recommended output.</string>
+			<key>xpos</key>
+			<integer>240</integer>
+			<key>ypos</key>
+			<integer>580</integer>
+		</dict>
 		<key>1C82525E-CFEA-4265-9B81-57497ED0C05C</key>
 		<dict>
 			<key>xpos</key>
 			<integer>235</integer>
 			<key>ypos</key>
 			<integer>270</integer>
+		</dict>
+		<key>659D317E-503A-446B-9349-0C80D6190156</key>
+		<dict>
+			<key>xpos</key>
+			<integer>240</integer>
+			<key>ypos</key>
+			<integer>810</integer>
 		</dict>
 		<key>6E4EEBD5-0AB8-4986-8EC0-1CD707F41689</key>
 		<dict>
@@ -258,33 +498,51 @@ currentWindow.tabs.push(newTab);</string>
 		<key>78F9E02C-F005-4EDE-AC73-E776A530779D</key>
 		<dict>
 			<key>xpos</key>
-			<integer>405</integer>
+			<integer>400</integer>
 			<key>ypos</key>
-			<integer>450</integer>
+			<integer>430</integer>
 		</dict>
 		<key>ADC38BD0-5F61-4A40-B944-812634B645BE</key>
 		<dict>
 			<key>xpos</key>
-			<integer>240</integer>
+			<integer>235</integer>
 			<key>ypos</key>
-			<integer>450</integer>
+			<integer>430</integer>
+		</dict>
+		<key>CC5B8C8C-B655-42A9-BCBF-7825591AA4F6</key>
+		<dict>
+			<key>xpos</key>
+			<integer>555</integer>
+			<key>ypos</key>
+			<integer>610</integer>
+		</dict>
+		<key>DA72EA9F-A206-4695-9CF8-5B5B05FE1D59</key>
+		<dict>
+			<key>xpos</key>
+			<integer>760</integer>
+			<key>ypos</key>
+			<integer>580</integer>
 		</dict>
 	</dict>
 	<key>variables</key>
 	<dict>
 		<key>bookmark_tag</key>
 		<string>bookmark</string>
-		<key>project_name</key>
+		<key>endpoint</key>
+		<string>scrapbox.io</string>
+		<key>project_id</key>
 		<string>scrapbox-rk</string>
+		<key>token</key>
+		<string>s%3A-EP6NnfWOWVg77_0-6AoBEW2MQcEm_s1.AoDQJqlRf6TKWIRit5q8seYFAxav54ilr4B83EloO5s</string>
 	</dict>
 	<key>variablesdontexport</key>
 	<array>
-		<string>project_name</string>
-		<string>bookmark_tag</string>
+		<string>project_id</string>
+		<string>token</string>
 	</array>
 	<key>version</key>
-	<string></string>
+	<string>0.0.2</string>
 	<key>webaddress</key>
-	<string></string>
+	<string>https://github.com/uma-the390/scrapbox-alfred-workflow</string>
 </dict>
 </plist>
