@@ -308,39 +308,33 @@ currentWindow.tabs.push(newTab);</string>
 				<key>runningsubtext</key>
 				<string>Fetching ...</string>
 				<key>script</key>
-				<string># https://github.com/tuki0918/alfred-scrapbox-listview
-# This script quoted the source code above links with MIT License.
+				<string>require 'net/http'
+require 'json'
+
+def list_scrapbox
+  uri = URI.parse("https://#{ENV['endpoint']}/api/pages/#{ENV['project_id']}")
+  http = Net::HTTP.new(uri.host, uri.port)
+  http.use_ssl = uri.scheme === "https"
+  headers = { "Cookie" =&gt; "connect.sid=#{ENV['token']}" }
+  response = http.get(uri.path, headers)
+
+  response
+end
 
 
-#
-# Fetching Scrapbox Item List
-#
-# icon: https://scrapbox.io/icons/Scrapbox
-# help: https://www.alfredapp.com/help/workflows/
+response = list_scrapbox
+json_response = JSON.parse(response.body, symbolize_names: true)
 
-# depended on "jq" command
-PATH=$PATH:$JQPATH
-endpoint="https://${endpoint}"
+items = json_response[:pages].each_with_object([]) do |page, array|
+  array &lt;&lt; {
+    uid: page[:id],
+    title: page[:title],
+    arg: page[:title]
+  }
+end
 
-# scrapbox get item list api
-# https://scrapbox.io/help-jp/API
-items=`curl -H "Cookie: connect.sid=${token}" \
-    -s "${endpoint}/api/pages/${project_id}" \
-    | jq -c '[ .pages[] | \
-        { \
-            "uid":.id \
-            ,"title":.title \
-            ,"arg": .title
-        } \
-    ]'`
-
-# alfred list format
-# https://www.alfredapp.com/help/workflows/inputs/script-filter/json/
-cat &lt;&lt; EOB
-{"items":
-    ${items}
-}
-EOB</string>
+puts JSON.dump({ items: items })
+</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -350,7 +344,7 @@ EOB</string>
 				<key>title</key>
 				<string>sb list</string>
 				<key>type</key>
-				<integer>0</integer>
+				<integer>2</integer>
 				<key>withspace</key>
 				<false/>
 			</dict>
@@ -397,50 +391,43 @@ EOB</string>
 				<key>runningsubtext</key>
 				<string>Fetching ...</string>
 				<key>script</key>
-				<string># https://github.com/tuki0918/alfred-scrapbox-listview
-# This script quoted the source code above links with MIT License and changed.
+				<string>require 'net/http'
+require 'json'
+
+def search_scrapbox(query)
+  uri = URI.parse("https://#{ENV['endpoint']}/api/pages/#{ENV['project_id']}/search/query")
+  uri.query = URI.encode_www_form({q: query})
+
+  http = Net::HTTP.new(uri.host, uri.port)
+  http.use_ssl = true
+  headers = { "Cookie" =&gt; "connect.sid=#{ENV['token']}" }
 
 
-#
-# Fetching Scrapbox Item List
-#
-# icon: https://scrapbox.io/icons/Scrapbox
-# help: https://www.alfredapp.com/help/workflows/
-
-# depended on "jq" command
-PATH=$PATH:$JQPATH
-endpoint="https://${endpoint}"
-
-# scrapbox get item list api
-# https://scrapbox.io/help-jp/API
-
-function urlencode {
-  echo "$1" | jq -R -r @uri
-}
-
-q=`urlencode {query}`
+  response = http.get(uri, headers)
+  response
+end
 
 
-items=`curl -H "Cookie: connect.sid=${token}" \
-    -s "${endpoint}/api/pages/scrapbox-rk/search/query?q=${q}" \
-    | jq -c '[ .pages[] | \
-        { \
-            "uid":.id \
-            ,"title":.title \
-            ,"arg": .title
-        } \
-    ]'`
+response = search_scrapbox(ARGV[0])
+json_response = JSON.parse(response.body, symbolize_names: true)
 
-# alfred list format
-# https://www.alfredapp.com/help/workflows/inputs/script-filter/json/
-cat &lt;&lt; EOB
-{"items":
-    ${items}
-}
-EOB
+# pages matched with title are sorted to forward
+pages = json_response[:pages].partition do |page|
+  page[:lines].include?(page[:title])
+end.flatten
+
+items = pages.each_with_object([]) do |page, array|
+  array &lt;&lt; {
+    uid: page[:id],
+    title: page[:title],
+    arg: page[:title]
+  }
+end
+
+puts JSON.dump({ items: items })
 </string>
 				<key>scriptargtype</key>
-				<integer>0</integer>
+				<integer>1</integer>
 				<key>scriptfile</key>
 				<string></string>
 				<key>subtext</key>
@@ -448,7 +435,7 @@ EOB
 				<key>title</key>
 				<string>sb search</string>
 				<key>type</key>
-				<integer>0</integer>
+				<integer>2</integer>
 				<key>withspace</key>
 				<true/>
 			</dict>
@@ -539,8 +526,6 @@ EOB
 	</dict>
 	<key>variables</key>
 	<dict>
-		<key>JQPATH</key>
-		<string>/usr/local/bin</string>
 		<key>bookmark_tag</key>
 		<string>bookmark</string>
 		<key>endpoint</key>
@@ -556,7 +541,7 @@ EOB
 		<string>token</string>
 	</array>
 	<key>version</key>
-	<string>0.0.1</string>
+	<string>0.0.2</string>
 	<key>webaddress</key>
 	<string>https://github.com/uma-the390/scrapbox-alfred-workflow</string>
 </dict>
